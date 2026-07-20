@@ -1,10 +1,32 @@
-.venv/
+# Python
 __pycache__/
+*.pyc
 .pytest_cache/
+
+# Virtual Environment
+.venv/
+venv/
+
+# Local data
 data/
 logs/
 certs/
+
+# Local configuration
 config/settings.json
+
+# Database
 *.db
-*.log
+
+# Environment
 .env
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
