@@ -19,15 +19,24 @@ def local_ip() -> str:
 
 
 if __name__ == "__main__":
-    ip = local_ip()
     print("=" * 58)
-    print("JARVIS V7 UNIFIED CORE")
+    print(f"JARVIS {settings.version}")
     print("=" * 58)
-    print(f"PC HEALTH : http://127.0.0.1:{settings.port}/health")
-    print(f"API DOCS  : http://127.0.0.1:{settings.port}/docs")
-    print(f"PHONE APP : http://{ip}:{settings.port}/mobile?token={settings.auth_token}")
-    print(f"PHONE API : http://{ip}:{settings.port}")
-    print(f"TOKEN     : {settings.auth_token}")
+
+    if settings.cloud_mode:
+        print(f"Cloud mode enabled on port {settings.port}")
+        print("Use the Render public URL to access Jarvis.")
+    else:
+        ip = local_ip()
+        print(f"PC HEALTH : http://127.0.0.1:{settings.port}/health")
+        print(f"API DOCS  : http://127.0.0.1:{settings.port}/docs")
+        print(
+            f"PHONE APP : "
+            f"http://{ip}:{settings.port}/mobile?token={settings.auth_token}"
+        )
+        print(f"PHONE API : http://{ip}:{settings.port}")
+        print(f"TOKEN     : {settings.auth_token}")
+
     print("Press Ctrl+C to stop Jarvis.")
     print("=" * 58)
 
