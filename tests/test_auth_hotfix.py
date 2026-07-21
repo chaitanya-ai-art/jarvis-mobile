@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient
+﻿from fastapi.testclient import TestClient
 
 from app.core.config import settings
 from app.core.security import SESSION_COOKIE
@@ -25,7 +25,7 @@ def test_mobile_rejects_invalid_token_without_valid_cookie() -> None:
     with TestClient(app) as client:
         response = client.get("/mobile?token=stale-token")
         assert response.status_code == 401
-        assert "link is invalid" in response.text.lower()
+        assert "login required" in response.text.lower()
 
 
 def test_websocket_accepts_authenticated_session_cookie() -> None:
@@ -43,3 +43,5 @@ def test_websocket_rejects_missing_authentication() -> None:
                 raise AssertionError("Unauthenticated WebSocket should not connect")
         except Exception:
             pass
+
+

@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient
+﻿from fastapi.testclient import TestClient
 
 from app.core.config import settings
 from app.main import app
@@ -10,7 +10,7 @@ HEADERS = {"Authorization": f"Bearer {settings.auth_token}"}
 def test_health_version_is_sprint3():
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json()["version"] == "7.4.1"
+    assert response.json()["version"] == "8.0.0-cloud"
 
 
 def test_mobile_dashboard_is_served():
@@ -43,3 +43,4 @@ def test_websocket_chat_roundtrip():
         reply = websocket.receive_json()
         assert reply["type"] == "chat_reply"
         assert "Hello" in reply["message"]
+

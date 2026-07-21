@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import APIRouter, Cookie, Query, Request
+from fastapi import APIRouter, Cookie, Query
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
 from app.core.config import settings
@@ -12,48 +12,25 @@ WEB_DIR = Path(__file__).resolve().parents[1] / "web"
 router = APIRouter(tags=["dashboard"])
 
 _INVALID_LINK = """<!doctype html>
-<html>
+<html lang="en">
 <head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jarvis Link</title>
+<title>Jarvis Login</title>
 <style>
-body {
-    background: #070b14;
-    color: #eef4ff;
-    font-family: Segoe UI, Arial, sans-serif;
-    padding: 28px;
-    line-height: 1.5;
-}
-
-.box {
-    max-width: 620px;
-    margin: auto;
-    background: #101727;
-    border: 1px solid #23304b;
-    border-radius: 18px;
-    padding: 22px;
-}
-
-code {
-    color: #4dd7ff;
-}
+body{margin:0;background:#050a13;color:#eef4ff;font-family:Segoe UI,Arial,sans-serif}
+.box{max-width:620px;margin:12vh auto;background:#101827;border:1px solid #263451;border-radius:20px;padding:26px}
+code{color:#51d8ff}
 </style>
 </head>
-
 <body>
 <div class="box">
-    <h2>Jarvis mobile link is invalid</h2>
-    <p>
-        Open Jarvis using the correct mobile link containing your authentication token.
-    </p>
-    <p>
-        Example:
-        <code>/mobile?token=YOUR_AUTH_TOKEN</code>
-    </p>
+<h2>Jarvis login required</h2>
+<p>Open Jarvis once using the secure link containing your authentication token.</p>
+<p><code>/mobile?token=YOUR_AUTH_TOKEN</code></p>
 </div>
 </body>
-</html>
-"""
+</html>"""
 
 
 def _set_session_cookie(response: Response, token: str) -> None:
@@ -68,80 +45,80 @@ def _set_session_cookie(response: Response, token: str) -> None:
     )
 
 
-@router.get("/mobile", include_in_schema=False)
-@router.get("/mobile/", include_in_schema=False)
-async def mobile_dashboard(
-    request: Request,
-    token: str | None = Query(default=None),
-    jarvis_session: str | None = Cookie(
-        default=None,
-        alias=SESSION_COOKIE,
-    ),
-):
-    """
-    Serve the Jarvis mobile dashboard.
+def _authenticated_file(
+    token: str | None,
+    jarvis_session: str | None,
+    filename: str,
+) -> Response:
+    selected = token if is_valid_token(token) else jarvis_session
 
-    A valid token in the URL creates or refreshes the browser session.
-    After that, the browser can authenticate using the secure session cookie.
-    """
+    if not is_valid_token(selected):
+        return HTMLResponse(_INVALID_LINK, status_code=401)
 
-    selected_token: str | None = None
-
-    if is_valid_token(token):
-        selected_token = token
-    elif is_valid_token(jarvis_session):
-        selected_token = jarvis_session
-
-    if not is_valid_token(selected_token):
+    page = WEB_DIR / filename
+    if not page.exists():
         return HTMLResponse(
-            content=_INVALID_LINK,
-            status_code=401,
-        )
-
-    index_file = WEB_DIR / "index.html"
-
-    if not index_file.exists():
-        return HTMLResponse(
-            content="<h2>Jarvis mobile interface not found.</h2>",
+            f"<h2>Jarvis page missing: {filename}</h2>",
             status_code=500,
         )
 
-    response = FileResponse(
-        index_file,
-        media_type="text/html",
-    )
-
-    _set_session_cookie(
-        response=response,
-        token=selected_token,
-    )
-
+    response = FileResponse(page, media_type="text/html")
+    _set_session_cookie(response, selected)
     response.headers["Cache-Control"] = "no-store, max-age=0"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
-
     return response
+
+
+@router.get("/mobile", include_in_schema=False)
+@router.get("/mobile/", include_in_schema=False)
+async def mobile_dashboard(
+    token: str | None = Query(default=None),
+    jarvis_session: str | None = Cookie(default=None, alias=SESSION_COOKIE),
+):
+    """
+    Mobile-first Jarvis home.
+
+    In cloud mode, /mobile is the conversational assistant.
+    The legacy Windows dashboard remains available at /control.
+    """
+    filename = "assistant.html" if settings.cloud_mode else "index.html"
+    return _authenticated_file(token, jarvis_session, filename)
+
+
+@router.get("/assistant", include_in_schema=False)
+@router.get("/assistant/", include_in_schema=False)
+async def assistant_dashboard(
+    token: str | None = Query(default=None),
+    jarvis_session: str | None = Cookie(default=None, alias=SESSION_COOKIE),
+):
+    return _authenticated_file(token, jarvis_session, "assistant.html")
+
+
+@router.get("/control", include_in_schema=False)
+@router.get("/control/", include_in_schema=False)
+async def legacy_control_dashboard(
+    token: str | None = Query(default=None),
+    jarvis_session: str | None = Cookie(default=None, alias=SESSION_COOKIE),
+):
+    return _authenticated_file(token, jarvis_session, "index.html")
 
 
 @router.post("/auth/logout", include_in_schema=False)
 async def logout() -> Response:
     response = Response(status_code=204)
-
     response.delete_cookie(
         key=SESSION_COOKIE,
         path="/",
         secure=settings.cloud_mode,
         samesite="strict",
     )
-
     return response
 
 
 @router.get("/manifest.webmanifest", include_in_schema=False)
 async def manifest() -> FileResponse:
-    manifest_file = WEB_DIR / "manifest.webmanifest"
-
     return FileResponse(
-        manifest_file,
+        WEB_DIR / "manifest.webmanifest",
         media_type="application/manifest+json",
     )

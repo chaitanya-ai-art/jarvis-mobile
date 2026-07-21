@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient
+﻿from fastapi.testclient import TestClient
 
 from app.core.config import settings
 from app.main import app
@@ -14,7 +14,7 @@ def test_health_is_public() -> None:
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "online"
-    assert response.json()["version"] == "7.4.1"
+    assert response.json()["version"] == "8.0.0-cloud"
 
 
 def test_status_requires_token() -> None:
@@ -45,3 +45,4 @@ def test_chat_rejects_blank_message() -> None:
         json={"message": ""},
     )
     assert response.status_code == 422
+

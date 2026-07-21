@@ -4,72 +4,240 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07101f">
-<title>Jarvis</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<title>Jarvis V9</title>
 <style>
-:root{color-scheme:dark;--bg:#050a13;--card:#101827;--line:#253451;--text:#f2f6ff;--muted:#91a1bd;--accent:#49d7ff;--green:#54e6a4}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102342 0,#050a13 45%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
-.shell{max-width:760px;margin:auto;min-height:100dvh;display:flex;flex-direction:column;padding:18px 14px env(safe-area-inset-bottom)}
-header{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 18px}.brand{font-size:27px;letter-spacing:7px;font-weight:800}.online{color:var(--green);font-size:14px}
-.chat{flex:1;display:flex;flex-direction:column;gap:12px;overflow:auto;padding:4px 0 120px}.bubble{max-width:88%;padding:14px 16px;border-radius:18px;line-height:1.45;white-space:pre-wrap}.jarvis{background:var(--card);border:1px solid var(--line);align-self:flex-start}.user{background:#0d6fa1;align-self:flex-end}.system{background:#182239;border:1px dashed #516382;align-self:stretch;color:#cbd7ed;font-size:14px}
-.composer{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(760px,100%);padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#050a13 16%,#050a13)}
-.row{display:flex;gap:9px;background:#0d1423;border:1px solid var(--line);border-radius:20px;padding:8px}.row textarea{flex:1;min-height:48px;max-height:140px;resize:none;background:transparent;border:0;color:var(--text);font-size:16px;padding:12px;outline:none}.btn{border:0;border-radius:15px;padding:0 17px;background:#1d2b46;color:white;font-weight:700}.send{background:linear-gradient(135deg,#35c8ff,#5a79ff)}.dev{background:#5038a8}.hint{font-size:12px;color:var(--muted);padding:7px 8px 0}.pulse{animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.45}}
+:root{
+  color-scheme:dark;
+  --bg:#050a13;--card:#0f1828;--line:#263654;--text:#f2f6ff;
+  --muted:#93a3bf;--accent:#4bd8ff;--accent2:#6d78ff;--green:#54e6a4;
+  --danger:#ff7c8c
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+radial-gradient(circle at 50% -10%,#173764 0,#081221 35%,var(--bg) 68%);
+color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+body{min-height:100dvh}
+.shell{max-width:780px;margin:auto;min-height:100dvh;padding:18px 14px 150px}
+header{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 18px}
+.brand{font-size:28px;letter-spacing:7px;font-weight:850}
+.online{color:var(--green);font-size:14px}
+.hero{background:linear-gradient(145deg,#111c30,#0d1626);border:1px solid var(--line);
+border-radius:23px;padding:22px;margin-bottom:14px}
+.hero h1{font-size:28px;margin:0 0 8px}.hero p{margin:0;color:var(--muted);line-height:1.5}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.tab{border:1px solid var(--line);background:#0d1626;color:#cbd7ed;border-radius:14px;padding:12px 6px;font-weight:700}
+.tab.active{background:linear-gradient(135deg,#145d85,#394da7);color:white}
+.panel{display:none}.panel.active{display:block}
+.chat{display:flex;flex-direction:column;gap:12px;padding:4px 0}
+.bubble{max-width:90%;padding:14px 16px;border-radius:18px;line-height:1.48;white-space:pre-wrap}
+.jarvis{background:var(--card);border:1px solid var(--line);align-self:flex-start}
+.user{background:#106f9d;align-self:flex-end}
+.system{align-self:stretch;background:#151f34;border:1px dashed #526482;color:#d3ddf0;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:12px}
+.card h3{margin:0 0 8px}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{font-size:29px;color:var(--accent);font-weight:800}
+.composer{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:0;
+width:min(780px,100%);padding:16px 14px calc(14px + env(safe-area-inset-bottom));
+background:linear-gradient(transparent,#050a13 18%,#050a13)}
+.compose-box{display:flex;gap:9px;background:#0d1423;border:1px solid var(--line);border-radius:21px;padding:8px}
+textarea{flex:1;min-height:50px;max-height:140px;resize:none;background:transparent;border:0;color:var(--text);font-size:16px;padding:12px;outline:none}
+button{cursor:pointer}
+.action{border:0;border-radius:15px;padding:0 17px;background:#243351;color:white;font-weight:800}
+.send{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.dev-send{background:linear-gradient(135deg,#8c4dff,#d156cf)}
+.status-line{font-size:13px;color:var(--muted);padding:7px 8px 0}
+.progress{height:8px;background:#1b2840;border-radius:99px;overflow:hidden;margin-top:10px}
+.progress>div{height:100%;width:35%;background:linear-gradient(90deg,var(--accent),var(--accent2));animation:move 1.2s infinite}
+@keyframes move{50%{transform:translateX(160%)}}
+.hidden{display:none!important}
+@media(max-width:500px){.tabs{grid-template-columns:repeat(4,1fr)}.tab{font-size:12px}.grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="shell">
-<header><div class="brand">JARVIS</div><div class="online">● Online</div></header>
-<div id="chat" class="chat">
-  <div class="bubble jarvis">Hello, Chinna. Ask me anything, or say <b>Develop:</b> followed by the feature you want.</div>
-</div>
-</div>
-<div class="composer">
-  <div class="row">
-    <textarea id="input" placeholder="Message Jarvis…"></textarea>
-    <button id="mic" class="btn" title="Speak">🎤</button>
-    <button id="send" class="btn send">Send</button>
+<header>
+  <div class="brand">JARVIS</div>
+  <div class="online">● Online</div>
+</header>
+
+<section class="hero">
+  <h1>Hello, Chinna</h1>
+  <p>Your mobile-first AI assistant. Chat, speak, remember, plan, and ask Jarvis to develop new features.</p>
+</section>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="chat">Chat</button>
+  <button class="tab" data-tab="develop">Develop</button>
+  <button class="tab" data-tab="today">Today</button>
+  <button class="tab" data-tab="memory">Memory</button>
+</nav>
+
+<section id="chat-panel" class="panel active">
+  <div id="chat" class="chat">
+    <div class="bubble jarvis">I am ready, Chinna. Ask me anything.</div>
   </div>
-  <div class="hint">Development example: “Develop: create a mobile notes feature.”</div>
+</section>
+
+<section id="develop-panel" class="panel">
+  <div class="card">
+    <h3>Self Developer</h3>
+    <p class="muted">Describe the feature you want. Jarvis will create a safe GitHub branch for review.</p>
+    <p class="muted"><b>Example:</b> Create a mobile notes feature with voice input.</p>
+  </div>
+  <div id="developer-log"></div>
+</section>
+
+<section id="today-panel" class="panel">
+  <div class="grid">
+    <div class="card"><div class="muted">Projects</div><div id="projects" class="metric">—</div></div>
+    <div class="card"><div class="muted">Goals</div><div id="goals" class="metric">—</div></div>
+    <div class="card"><div class="muted">Reminders</div><div id="reminders" class="metric">—</div></div>
+    <div class="card"><div class="muted">Memories</div><div id="memories" class="metric">—</div></div>
+  </div>
+  <div class="card">
+    <h3>Today</h3>
+    <p id="today-summary" class="muted">Loading your assistant summary…</p>
+  </div>
+</section>
+
+<section id="memory-panel" class="panel">
+  <div class="card">
+    <h3>Remember something</h3>
+    <p class="muted">Tell Jarvis what should be remembered in normal chat, for example: “Remember that my SAP interview is on Friday.”</p>
+  </div>
+  <div id="memory-list" class="card muted">Loading memories…</div>
+</section>
 </div>
+
+<div class="composer">
+  <div class="compose-box">
+    <textarea id="input" placeholder="Message Jarvis…"></textarea>
+    <button id="mic" class="action" title="Speak">🎤</button>
+    <button id="send" class="action send">Send</button>
+  </div>
+  <div id="mode-hint" class="status-line">Chat mode</div>
+</div>
+
 <script>
-const chat=document.getElementById('chat'),input=document.getElementById('input');
-function add(text,kind='jarvis'){const el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;chat.appendChild(el);el.scrollIntoView({behavior:'smooth'});return el}
-function speak(text){if(!('speechSynthesis'in window))return; speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-IN';speechSynthesis.speak(u)}
-async function normalChat(message){
-  const res=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message})});
-  if(!res.ok)throw new Error(await res.text());
-  const data=await res.json();
-  return data.reply||data.response||data.message||JSON.stringify(data);
+const state={mode:'chat'};
+const input=document.getElementById('input');
+const chat=document.getElementById('chat');
+const sendBtn=document.getElementById('send');
+const hint=document.getElementById('mode-hint');
+
+function addBubble(text,kind='jarvis',target=chat){
+  const el=document.createElement('div');
+  el.className='bubble '+kind;
+  el.textContent=text;
+  target.appendChild(el);
+  el.scrollIntoView({behavior:'smooth',block:'end'});
+  return el;
 }
-async function developer(message){
-  const instruction=message.replace(/^(develop|build|create feature)\s*:?\s*/i,'');
-  const res=await fetch('/developer/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({instruction})});
-  if(!res.ok)throw new Error(await res.text());
-  const job=await res.json();
-  const status=add('Developer started…','system');
-  while(true){
-    await new Promise(r=>setTimeout(r,2500));
-    const s=await fetch('/developer/status/'+job.id);
-    const data=await s.json();
-    status.textContent=data.message+(data.branch?'\nBranch: '+data.branch:'')+(data.error?'\nError: '+data.error:'');
-    if(['ready','failed'].includes(data.status))break;
-  }
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-IN';
+  speechSynthesis.speak(u);
+}
+async function jsonFetch(url,options={}){
+  const res=await fetch(url,options);
+  if(!res.ok)throw new Error((await res.text())||('HTTP '+res.status));
+  return res.json();
+}
+async function sendChat(message){
+  addBubble(message,'user');
+  const wait=addBubble('Thinking…','jarvis');
+  try{
+    const data=await jsonFetch('/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message})
+    });
+    const reply=data.reply||data.response||data.message||JSON.stringify(data);
+    wait.textContent=reply;
+    speak(reply);
+  }catch(e){wait.textContent='Error: '+e.message}
+}
+async function sendDeveloper(message){
+  const log=document.getElementById('developer-log');
+  addBubble(message,'user',log);
+  const status=addBubble('Creating development job…','system',log);
+  try{
+    const job=await jsonFetch('/developer/request',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({instruction:message})
+    });
+    while(true){
+      await new Promise(r=>setTimeout(r,2500));
+      const data=await jsonFetch('/developer/status/'+job.id);
+      status.textContent=data.message+
+        (data.changed_files?.length?'\nFiles: '+data.changed_files.join(', '):'')+
+        (data.branch?'\nBranch: '+data.branch:'')+
+        (data.error?'\nError: '+data.error:'');
+      if(['ready','failed'].includes(data.status))break;
+    }
+  }catch(e){status.textContent='Developer error: '+e.message}
 }
 async function send(){
-  const message=input.value.trim();if(!message)return;input.value='';add(message,'user');
-  try{
-    if(/^(develop|build|create feature)\b/i.test(message)){await developer(message)}
-    else{const wait=add('Thinking…','jarvis');wait.classList.add('pulse');const reply=await normalChat(message);wait.classList.remove('pulse');wait.textContent=reply;speak(reply)}
-  }catch(e){add('Error: '+e.message,'system')}
+  const message=input.value.trim();
+  if(!message)return;
+  input.value='';
+  if(state.mode==='develop')await sendDeveloper(message);
+  else await sendChat(message);
 }
-document.getElementById('send').onclick=send;
-input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+sendBtn.onclick=send;
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}
+});
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    const name=btn.dataset.tab;
+    document.getElementById(name+'-panel').classList.add('active');
+    state.mode=name==='develop'?'develop':'chat';
+    sendBtn.textContent=state.mode==='develop'?'Build':'Send';
+    sendBtn.classList.toggle('dev-send',state.mode==='develop');
+    hint.textContent=state.mode==='develop'?'Developer mode: creates a review branch':'Chat mode';
+    input.placeholder=state.mode==='develop'?'Describe what Jarvis should develop…':'Message Jarvis…';
+    if(name==='today')loadSummary();
+    if(name==='memory')loadMemories();
+  };
+});
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 document.getElementById('mic').onclick=()=>{
-  if(!SR){add('Speech recognition is not supported in this browser.','system');return}
+  if(!SR){addBubble('Speech recognition is unavailable in this browser.','system');return}
   const r=new SR();r.lang='en-IN';r.interimResults=false;
   r.onresult=e=>{input.value=e.results[0][0].transcript;send()};
-  r.onerror=e=>add('Voice error: '+e.error,'system');r.start();
+  r.onerror=e=>addBubble('Voice error: '+e.error,'system');
+  r.start();
 };
+async function loadSummary(){
+  try{
+    const data=await jsonFetch('/dashboard/summary');
+    for(const key of ['projects','goals','reminders','memories']){
+      const value=data[key]?.count ?? data[key] ?? 0;
+      document.getElementById(key).textContent=value;
+    }
+    document.getElementById('today-summary').textContent=
+      data.summary||'Jarvis is online and ready.';
+  }catch(e){document.getElementById('today-summary').textContent='Could not load summary.'}
+}
+async function loadMemories(){
+  const box=document.getElementById('memory-list');
+  try{
+    const data=await jsonFetch('/memory');
+    const items=Array.isArray(data)?data:(data.items||data.memories||[]);
+    box.innerHTML=items.length?items.slice(0,20).map(x=>'<div style="padding:8px 0;border-bottom:1px solid #263654">'+
+      escapeHtml(String(x.content||x.text||x.value||JSON.stringify(x)))+'</div>').join(''):'No memories saved yet.';
+  }catch(e){box.textContent='Could not load memories.'}
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 </script>
 </body>
 </html>

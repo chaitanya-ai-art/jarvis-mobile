@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient
+﻿from fastapi.testclient import TestClient
 
 from app.main import app
 from app.services.command_service import ParsedCommand, parse_windows_command
@@ -9,7 +9,7 @@ client = TestClient(app)
 def test_command_router_version():
     response = client.get('/health')
     assert response.status_code == 200
-    assert response.json()['version'] == '7.4.1'
+    assert response.json()['version'] == '8.0.0-cloud'
 
 
 def test_open_excel_variants():
@@ -27,3 +27,4 @@ def test_non_approved_text_is_not_a_command():
     assert parse_windows_command('delete all files') is None
     assert parse_windows_command('run powershell format c') is None
     assert parse_windows_command('tell me a story') is None
+

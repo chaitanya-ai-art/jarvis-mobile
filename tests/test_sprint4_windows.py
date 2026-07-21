@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from unittest.mock import patch
 
@@ -47,3 +47,4 @@ def test_open_app_uses_allow_list() -> None:
         result = windows_agent.open_app("excel")
     assert result.ok is True
     popen.assert_called_once()
+

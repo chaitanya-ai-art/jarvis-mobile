@@ -1,4 +1,4 @@
-from uuid import uuid4
+﻿from uuid import uuid4
 
 from fastapi.testclient import TestClient
 
@@ -15,7 +15,7 @@ def headers() -> dict[str, str]:
 def test_version_upgraded() -> None:
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json()["version"] == "7.4.1"
+    assert response.json()["version"] == "8.0.0-cloud"
 
 
 def test_memory_crud() -> None:
@@ -59,3 +59,4 @@ def test_storage_endpoints_require_token() -> None:
     assert client.get("/projects").status_code == 401
     assert client.get("/goals").status_code == 401
     assert client.get("/reminders").status_code == 401
+

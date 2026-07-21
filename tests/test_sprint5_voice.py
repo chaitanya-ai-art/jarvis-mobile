@@ -1,4 +1,4 @@
-from pathlib import Path
+﻿from pathlib import Path
 
 from fastapi.testclient import TestClient
 
@@ -10,7 +10,7 @@ client = TestClient(app)
 def test_voice_version() -> None:
     response = client.get('/health')
     assert response.status_code == 200
-    assert response.json()['version'] == '7.4.1'
+    assert response.json()['version'] == '8.0.0-cloud'
 
 
 def test_mobile_contains_voice_controls() -> None:
@@ -28,3 +28,4 @@ def test_voice_uses_existing_chat_websocket() -> None:
     page = Path('app/web/index.html').read_text(encoding='utf-8')
     assert "type:'chat'" in page
     assert "source:'voice_or_text'" in page
+
