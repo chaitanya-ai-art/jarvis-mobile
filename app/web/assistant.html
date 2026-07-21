@@ -5,239 +5,56 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07101f">
 <link rel="manifest" href="/manifest.webmanifest">
-<title>Jarvis V9</title>
+<title>Jarvis V10</title>
 <style>
-:root{
-  color-scheme:dark;
-  --bg:#050a13;--card:#0f1828;--line:#263654;--text:#f2f6ff;
-  --muted:#93a3bf;--accent:#4bd8ff;--accent2:#6d78ff;--green:#54e6a4;
-  --danger:#ff7c8c
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:
-radial-gradient(circle at 50% -10%,#173764 0,#081221 35%,var(--bg) 68%);
-color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
-body{min-height:100dvh}
-.shell{max-width:780px;margin:auto;min-height:100dvh;padding:18px 14px 150px}
-header{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 18px}
-.brand{font-size:28px;letter-spacing:7px;font-weight:850}
-.online{color:var(--green);font-size:14px}
-.hero{background:linear-gradient(145deg,#111c30,#0d1626);border:1px solid var(--line);
-border-radius:23px;padding:22px;margin-bottom:14px}
-.hero h1{font-size:28px;margin:0 0 8px}.hero p{margin:0;color:var(--muted);line-height:1.5}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
-.tab{border:1px solid var(--line);background:#0d1626;color:#cbd7ed;border-radius:14px;padding:12px 6px;font-weight:700}
-.tab.active{background:linear-gradient(135deg,#145d85,#394da7);color:white}
-.panel{display:none}.panel.active{display:block}
-.chat{display:flex;flex-direction:column;gap:12px;padding:4px 0}
-.bubble{max-width:90%;padding:14px 16px;border-radius:18px;line-height:1.48;white-space:pre-wrap}
-.jarvis{background:var(--card);border:1px solid var(--line);align-self:flex-start}
-.user{background:#106f9d;align-self:flex-end}
-.system{align-self:stretch;background:#151f34;border:1px dashed #526482;color:#d3ddf0;font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:12px}
-.card h3{margin:0 0 8px}.muted{color:var(--muted)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.metric{font-size:29px;color:var(--accent);font-weight:800}
-.composer{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:0;
-width:min(780px,100%);padding:16px 14px calc(14px + env(safe-area-inset-bottom));
-background:linear-gradient(transparent,#050a13 18%,#050a13)}
-.compose-box{display:flex;gap:9px;background:#0d1423;border:1px solid var(--line);border-radius:21px;padding:8px}
-textarea{flex:1;min-height:50px;max-height:140px;resize:none;background:transparent;border:0;color:var(--text);font-size:16px;padding:12px;outline:none}
-button{cursor:pointer}
-.action{border:0;border-radius:15px;padding:0 17px;background:#243351;color:white;font-weight:800}
-.send{background:linear-gradient(135deg,var(--accent),var(--accent2))}
-.dev-send{background:linear-gradient(135deg,#8c4dff,#d156cf)}
-.status-line{font-size:13px;color:var(--muted);padding:7px 8px 0}
-.progress{height:8px;background:#1b2840;border-radius:99px;overflow:hidden;margin-top:10px}
-.progress>div{height:100%;width:35%;background:linear-gradient(90deg,var(--accent),var(--accent2));animation:move 1.2s infinite}
-@keyframes move{50%{transform:translateX(160%)}}
-.hidden{display:none!important}
-@media(max-width:500px){.tabs{grid-template-columns:repeat(4,1fr)}.tab{font-size:12px}.grid{grid-template-columns:1fr 1fr}}
+:root{color-scheme:dark;--bg:#050a13;--card:#0f1828;--line:#263654;--text:#f2f6ff;--muted:#93a3bf;--accent:#4bd8ff;--accent2:#6d78ff;--green:#54e6a4;--purple:#a667ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#173764 0,#081221 35%,var(--bg) 68%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}body{min-height:100dvh}
+.shell{max-width:780px;margin:auto;min-height:100dvh;padding:18px 14px 155px}header{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 18px}.brand{font-size:28px;letter-spacing:7px;font-weight:850}.online{color:var(--green);font-size:14px}
+.hero,.card{background:linear-gradient(145deg,#111c30,#0d1626);border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:13px}.hero h1{margin:0 0 8px}.hero p,.muted{color:var(--muted);line-height:1.5}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.tab{border:1px solid var(--line);background:#0d1626;color:#cbd7ed;border-radius:14px;padding:12px 5px;font-weight:750}.tab.active{background:linear-gradient(135deg,#145d85,#394da7);color:white}
+.panel{display:none}.panel.active{display:block}.chat{display:flex;flex-direction:column;gap:12px}.bubble{max-width:92%;padding:14px 16px;border-radius:18px;line-height:1.48;white-space:pre-wrap}.jarvis{background:var(--card);border:1px solid var(--line);align-self:flex-start}.user{background:#106f9d;align-self:flex-end}.system{align-self:stretch;background:#151f34;border:1px dashed #526482;color:#d3ddf0;font-size:14px}
+.developer-job{background:#101a2c;border:1px solid #3b4e76;border-radius:18px;padding:16px;margin-top:12px}.job-title{font-weight:800;margin-bottom:8px}.pr-link{display:inline-block;color:var(--accent);margin:9px 0}.approve-row{display:flex;gap:8px;margin-top:12px}.approve-row input{flex:1;background:#09111f;border:1px solid var(--line);border-radius:12px;color:white;padding:12px;min-width:0}.approve{border:0;border-radius:12px;padding:0 17px;background:linear-gradient(135deg,#8b4bff,#dc56c7);color:white;font-weight:800}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{font-size:29px;color:var(--accent);font-weight:800}
+.composer{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:0;width:min(780px,100%);padding:16px 14px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,#050a13 18%,#050a13)}.compose-box{display:flex;gap:9px;background:#0d1423;border:1px solid var(--line);border-radius:21px;padding:8px}textarea{flex:1;min-height:50px;max-height:140px;resize:none;background:transparent;border:0;color:var(--text);font-size:16px;padding:12px;outline:none}.action{border:0;border-radius:15px;padding:0 17px;background:#243351;color:white;font-weight:800}.send{background:linear-gradient(135deg,var(--accent),var(--accent2))}.dev-send{background:linear-gradient(135deg,#8c4dff,#d156cf)}.status-line{font-size:13px;color:var(--muted);padding:7px 8px 0}
 </style>
 </head>
 <body>
 <div class="shell">
-<header>
-  <div class="brand">JARVIS</div>
-  <div class="online">● Online</div>
-</header>
-
-<section class="hero">
-  <h1>Hello, Chinna</h1>
-  <p>Your mobile-first AI assistant. Chat, speak, remember, plan, and ask Jarvis to develop new features.</p>
-</section>
-
+<header><div class="brand">JARVIS</div><div class="online">● Online</div></header>
+<section class="hero"><h1>Hello, Chinna</h1><p>Talk to Jarvis, manage your day, or ask it to develop and deploy an approved update.</p></section>
 <nav class="tabs">
-  <button class="tab active" data-tab="chat">Chat</button>
-  <button class="tab" data-tab="develop">Develop</button>
-  <button class="tab" data-tab="today">Today</button>
-  <button class="tab" data-tab="memory">Memory</button>
+<button class="tab active" data-tab="chat">Chat</button>
+<button class="tab" data-tab="develop">Develop</button>
+<button class="tab" data-tab="today">Today</button>
+<button class="tab" data-tab="memory">Memory</button>
 </nav>
-
-<section id="chat-panel" class="panel active">
-  <div id="chat" class="chat">
-    <div class="bubble jarvis">I am ready, Chinna. Ask me anything.</div>
-  </div>
-</section>
-
+<section id="chat-panel" class="panel active"><div id="chat" class="chat"><div class="bubble jarvis">I am ready, Chinna.</div></div></section>
 <section id="develop-panel" class="panel">
-  <div class="card">
-    <h3>Self Developer</h3>
-    <p class="muted">Describe the feature you want. Jarvis will create a safe GitHub branch for review.</p>
-    <p class="muted"><b>Example:</b> Create a mobile notes feature with voice input.</p>
-  </div>
-  <div id="developer-log"></div>
+<div class="card"><h3>Self Developer</h3><p class="muted">Describe a feature. Jarvis creates a pull request. Review it, then approve using your private PIN.</p></div>
+<div id="developer-log"></div>
 </section>
-
 <section id="today-panel" class="panel">
-  <div class="grid">
-    <div class="card"><div class="muted">Projects</div><div id="projects" class="metric">—</div></div>
-    <div class="card"><div class="muted">Goals</div><div id="goals" class="metric">—</div></div>
-    <div class="card"><div class="muted">Reminders</div><div id="reminders" class="metric">—</div></div>
-    <div class="card"><div class="muted">Memories</div><div id="memories" class="metric">—</div></div>
-  </div>
-  <div class="card">
-    <h3>Today</h3>
-    <p id="today-summary" class="muted">Loading your assistant summary…</p>
-  </div>
+<div class="grid"><div class="card"><div class="muted">Projects</div><div id="projects" class="metric">—</div></div><div class="card"><div class="muted">Goals</div><div id="goals" class="metric">—</div></div><div class="card"><div class="muted">Reminders</div><div id="reminders" class="metric">—</div></div><div class="card"><div class="muted">Memories</div><div id="memories" class="metric">—</div></div></div>
+<div class="card"><h3>Today</h3><p id="today-summary" class="muted">Loading…</p></div>
 </section>
-
-<section id="memory-panel" class="panel">
-  <div class="card">
-    <h3>Remember something</h3>
-    <p class="muted">Tell Jarvis what should be remembered in normal chat, for example: “Remember that my SAP interview is on Friday.”</p>
-  </div>
-  <div id="memory-list" class="card muted">Loading memories…</div>
-</section>
+<section id="memory-panel" class="panel"><div class="card"><h3>Memory</h3><p class="muted">Tell Jarvis in Chat: “Remember that …”</p></div><div id="memory-list" class="card muted">Loading…</div></section>
 </div>
-
-<div class="composer">
-  <div class="compose-box">
-    <textarea id="input" placeholder="Message Jarvis…"></textarea>
-    <button id="mic" class="action" title="Speak">🎤</button>
-    <button id="send" class="action send">Send</button>
-  </div>
-  <div id="mode-hint" class="status-line">Chat mode</div>
-</div>
-
+<div class="composer"><div class="compose-box"><textarea id="input" placeholder="Message Jarvis…"></textarea><button id="mic" class="action">🎤</button><button id="send" class="action send">Send</button></div><div id="mode-hint" class="status-line">Chat mode</div></div>
 <script>
-const state={mode:'chat'};
-const input=document.getElementById('input');
-const chat=document.getElementById('chat');
-const sendBtn=document.getElementById('send');
-const hint=document.getElementById('mode-hint');
-
-function addBubble(text,kind='jarvis',target=chat){
-  const el=document.createElement('div');
-  el.className='bubble '+kind;
-  el.textContent=text;
-  target.appendChild(el);
-  el.scrollIntoView({behavior:'smooth',block:'end'});
-  return el;
-}
-function speak(text){
-  if(!('speechSynthesis' in window))return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-IN';
-  speechSynthesis.speak(u);
-}
-async function jsonFetch(url,options={}){
-  const res=await fetch(url,options);
-  if(!res.ok)throw new Error((await res.text())||('HTTP '+res.status));
-  return res.json();
-}
-async function sendChat(message){
-  addBubble(message,'user');
-  const wait=addBubble('Thinking…','jarvis');
-  try{
-    const data=await jsonFetch('/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message})
-    });
-    const reply=data.reply||data.response||data.message||JSON.stringify(data);
-    wait.textContent=reply;
-    speak(reply);
-  }catch(e){wait.textContent='Error: '+e.message}
-}
-async function sendDeveloper(message){
-  const log=document.getElementById('developer-log');
-  addBubble(message,'user',log);
-  const status=addBubble('Creating development job…','system',log);
-  try{
-    const job=await jsonFetch('/developer/request',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({instruction:message})
-    });
-    while(true){
-      await new Promise(r=>setTimeout(r,2500));
-      const data=await jsonFetch('/developer/status/'+job.id);
-      status.textContent=data.message+
-        (data.changed_files?.length?'\nFiles: '+data.changed_files.join(', '):'')+
-        (data.branch?'\nBranch: '+data.branch:'')+
-        (data.error?'\nError: '+data.error:'');
-      if(['ready','failed'].includes(data.status))break;
-    }
-  }catch(e){status.textContent='Developer error: '+e.message}
-}
-async function send(){
-  const message=input.value.trim();
-  if(!message)return;
-  input.value='';
-  if(state.mode==='develop')await sendDeveloper(message);
-  else await sendChat(message);
-}
-sendBtn.onclick=send;
-input.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}
-});
-document.querySelectorAll('.tab').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    const name=btn.dataset.tab;
-    document.getElementById(name+'-panel').classList.add('active');
-    state.mode=name==='develop'?'develop':'chat';
-    sendBtn.textContent=state.mode==='develop'?'Build':'Send';
-    sendBtn.classList.toggle('dev-send',state.mode==='develop');
-    hint.textContent=state.mode==='develop'?'Developer mode: creates a review branch':'Chat mode';
-    input.placeholder=state.mode==='develop'?'Describe what Jarvis should develop…':'Message Jarvis…';
-    if(name==='today')loadSummary();
-    if(name==='memory')loadMemories();
-  };
-});
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-document.getElementById('mic').onclick=()=>{
-  if(!SR){addBubble('Speech recognition is unavailable in this browser.','system');return}
-  const r=new SR();r.lang='en-IN';r.interimResults=false;
-  r.onresult=e=>{input.value=e.results[0][0].transcript;send()};
-  r.onerror=e=>addBubble('Voice error: '+e.error,'system');
-  r.start();
-};
-async function loadSummary(){
-  try{
-    const data=await jsonFetch('/dashboard/summary');
-    for(const key of ['projects','goals','reminders','memories']){
-      const value=data[key]?.count ?? data[key] ?? 0;
-      document.getElementById(key).textContent=value;
-    }
-    document.getElementById('today-summary').textContent=
-      data.summary||'Jarvis is online and ready.';
-  }catch(e){document.getElementById('today-summary').textContent='Could not load summary.'}
-}
-async function loadMemories(){
-  const box=document.getElementById('memory-list');
-  try{
-    const data=await jsonFetch('/memory');
-    const items=Array.isArray(data)?data:(data.items||data.memories||[]);
-    box.innerHTML=items.length?items.slice(0,20).map(x=>'<div style="padding:8px 0;border-bottom:1px solid #263654">'+
-      escapeHtml(String(x.content||x.text||x.value||JSON.stringify(x)))+'</div>').join(''):'No memories saved yet.';
-  }catch(e){box.textContent='Could not load memories.'}
-}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const state={mode:'chat'};const input=document.getElementById('input'),chat=document.getElementById('chat'),sendBtn=document.getElementById('send'),hint=document.getElementById('mode-hint');
+function add(text,kind='jarvis',target=chat){const e=document.createElement('div');e.className='bubble '+kind;e.textContent=text;target.appendChild(e);e.scrollIntoView({behavior:'smooth',block:'end'});return e}
+async function jf(url,opt={}){const r=await fetch(url,opt);if(!r.ok)throw new Error((await r.text())||('HTTP '+r.status));return r.json()}
+function speak(t){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-IN';speechSynthesis.speak(u)}
+async function sendChat(m){add(m,'user');const w=add('Thinking…');try{const d=await jf('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m})});const reply=d.reply||d.response||d.message||JSON.stringify(d);w.textContent=reply;speak(reply)}catch(e){w.textContent='Error: '+e.message}}
+function renderJob(container,data){container.innerHTML='';const box=document.createElement('div');box.className='developer-job';const title=document.createElement('div');title.className='job-title';title.textContent=data.message||data.status;box.appendChild(title);if(data.changed_files?.length){const f=document.createElement('div');f.className='muted';f.textContent='Files: '+data.changed_files.join(', ');box.appendChild(f)}if(data.pull_request_url){const a=document.createElement('a');a.className='pr-link';a.href=data.pull_request_url;a.target='_blank';a.rel='noopener';a.textContent='Review pull request';box.appendChild(a)}if(data.error){const e=document.createElement('div');e.textContent='Error: '+data.error;box.appendChild(e)}if(data.status==='ready'){const row=document.createElement('div');row.className='approve-row';const pin=document.createElement('input');pin.type='password';pin.placeholder='Approval PIN';const b=document.createElement('button');b.className='approve';b.textContent='Approve & Deploy';b.onclick=async()=>{if(!pin.value)return;try{await jf('/developer/approve/'+data.id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({approval_pin:pin.value})});pin.value='';poll(data.id,container)}catch(e){alert(e.message)}};row.append(pin,b);box.appendChild(row)}container.appendChild(box)}
+async function poll(id,container){while(true){await new Promise(r=>setTimeout(r,2500));const d=await jf('/developer/status/'+id);renderJob(container,d);if(['ready','merged','failed'].includes(d.status))break}}
+async function sendDev(m){const log=document.getElementById('developer-log');add(m,'user',log);const c=document.createElement('div');log.appendChild(c);c.innerHTML='<div class="developer-job">Starting…</div>';try{const j=await jf('/developer/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({instruction:m})});renderJob(c,j);await poll(j.id,c)}catch(e){c.textContent='Developer error: '+e.message}}
+async function send(){const m=input.value.trim();if(!m)return;input.value='';state.mode==='develop'?await sendDev(m):await sendChat(m)}
+sendBtn.onclick=send;input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');const n=b.dataset.tab;document.getElementById(n+'-panel').classList.add('active');state.mode=n==='develop'?'develop':'chat';sendBtn.textContent=state.mode==='develop'?'Build':'Send';sendBtn.classList.toggle('dev-send',state.mode==='develop');hint.textContent=state.mode==='develop'?'Developer mode':'Chat mode';input.placeholder=state.mode==='develop'?'Describe what Jarvis should develop…':'Message Jarvis…';if(n==='today')summary();if(n==='memory')memories()});
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;document.getElementById('mic').onclick=()=>{if(!SR){add('Speech recognition is unavailable.','system');return}const r=new SR();r.lang='en-IN';r.onresult=e=>{input.value=e.results[0][0].transcript;send()};r.onerror=e=>add('Voice error: '+e.error,'system');r.start()};
+async function summary(){try{const d=await jf('/dashboard/summary');for(const k of ['projects','goals','reminders','memories'])document.getElementById(k).textContent=d[k]?.count??d[k]??0;document.getElementById('today-summary').textContent=d.summary||'Jarvis is ready.'}catch(e){document.getElementById('today-summary').textContent='Could not load summary.'}}
+async function memories(){const b=document.getElementById('memory-list');try{const d=await jf('/memory');const a=Array.isArray(d)?d:(d.items||d.memories||[]);b.textContent=a.length?a.slice(0,20).map(x=>x.content||x.text||x.value||JSON.stringify(x)).join('\n\n'):'No memories yet.'}catch(e){b.textContent='Could not load memories.'}}
 </script>
 </body>
 </html>
