@@ -3,7 +3,15 @@ from __future__ import annotations
 import os
 import secrets
 
-from fastapi import APIRouter, BackgroundTasks, Cookie, Header, HTTPException, Query
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Cookie,
+    Depends,
+    Header,
+    HTTPException,
+    Query,
+)
 from pydantic import BaseModel, Field
 
 from app.core.security import SESSION_COOKIE, is_valid_token
@@ -22,7 +30,10 @@ class ApprovalRequest(BaseModel):
 
 def verify_developer_auth(
     token: str | None = Query(default=None),
-    jarvis_session: str | None = Cookie(default=None, alias=SESSION_COOKIE),
+    jarvis_session: str | None = Cookie(
+        default=None,
+        alias=SESSION_COOKIE,
+    ),
     authorization: str | None = Header(default=None),
 ) -> None:
     selected_token = token or jarvis_session
@@ -57,7 +68,7 @@ def verify_approval_pin(candidate: str) -> None:
 async def create_developer_request(
     payload: DeveloperRequest,
     background_tasks: BackgroundTasks,
-    _: None = verify_developer_auth,
+    _: None = Depends(verify_developer_auth),
 ):
     job = developer_jobs.create(payload.instruction)
     background_tasks.add_task(developer_jobs.run, job.id)
@@ -67,7 +78,7 @@ async def create_developer_request(
 @router.get("/status/{job_id}")
 async def developer_status(
     job_id: str,
-    _: None = verify_developer_auth,
+    _: None = Depends(verify_developer_auth),
 ):
     job = developer_jobs.get(job_id)
 
@@ -85,11 +96,12 @@ async def approve_developer_job(
     job_id: str,
     payload: ApprovalRequest,
     background_tasks: BackgroundTasks,
-    _: None = verify_developer_auth,
+    _: None = Depends(verify_developer_auth),
 ):
     verify_approval_pin(payload.approval_pin)
 
     job = developer_jobs.get(job_id)
+
     if job is None:
         raise HTTPException(
             status_code=404,
@@ -103,8 +115,12 @@ async def approve_developer_job(
         )
 
     background_tasks.add_task(developer_jobs.approve, job.id)
+
     return {
         "id": job.id,
         "status": "approval_queued",
-        "message": "Approval accepted. Jarvis is merging the reviewed pull request.",
+        "message": (
+            "Approval accepted. Jarvis is merging "
+            "the reviewed pull request."
+        ),
     }
