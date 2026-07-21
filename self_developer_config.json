@@ -1,0 +1,46 @@
+{
+  "model": "gpt-5",
+  "test_command": [
+    ".venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q"
+  ],
+  "allowed_extensions": [
+    ".py",
+    ".html",
+    ".css",
+    ".js",
+    ".json",
+    ".md",
+    ".txt",
+    ".yml",
+    ".yaml",
+    ".bat"
+  ],
+  "ignored_directories": [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    "data",
+    "logs",
+    "certs",
+    "node_modules",
+    "update"
+  ],
+  "protected_paths": [
+    ".env",
+    "config/settings.json",
+    "data/",
+    "logs/",
+    "certs/",
+    ".git/"
+  ],
+  "max_context_chars": 120000,
+  "max_patch_chars": 70000,
+  "auto_commit": true,
+  "auto_push": false,
+  "auto_deploy": false
+}
